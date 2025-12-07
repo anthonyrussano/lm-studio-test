@@ -2,9 +2,17 @@
 import os
 from openai import OpenAI
 
-BASE_URL = os.getenv("LMSTUDIO_BASE_URL", "http://10.32.25.175:1234/v1")
-MODEL = os.getenv("LMSTUDIO_MODEL", "openai/gpt-oss-120b")
-API_KEY = os.getenv("OPENAI_API_KEY", "lm-studio")  # LM Studio usually ignores it
+try:
+    from dotenv import load_dotenv
+    if os.path.exists('.env'):
+        load_dotenv()
+except ImportError:
+    # dotenv is not installed, that's fine for GitHub Actions
+    pass
+
+BASE_URL = os.getenv("LMSTUDIO_BASE_URL")
+MODEL = os.getenv("LMSTUDIO_MODEL")
+API_KEY = os.getenv("API_KEY")
 
 client = OpenAI(base_url=BASE_URL, api_key=API_KEY)
 
